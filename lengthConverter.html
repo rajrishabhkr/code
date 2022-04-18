@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="This is a Website">
+		<title>Rishabh's Website</title>
+		<link rel="stylesheet" type="text/css" href="abc.css">
+	</head>
+	<body>
+		<div id='showTableAdd'></div>
+		<script>
+			let conUnit={"Kilometer":{"Meter":1000,"Centimeter":100000,"Milimeter":1000000},"Meter":{"Kilometer":0.001,"Centimeter":100,"Milimeter":1000},"Centimeter":{"Kilometer":0.00001,"Meter":0.01,"Milimeter":10},"Milimeter":{"Kilometer":0.000001,"Meter":0.001,"Centimeter":0.1}};
+			let allowDD=["Kilometer","Meter","Centimeter","Milimeter"];
+			showTable();
+			function showTable(){
+				let str='';
+				str+='<tr>';
+				str+='<td class="col1">'+'<input type="text" id="num1" placeholder="Enter number1" onkeyup="convertNum(1)">'+'</td>';
+				str+='<td class="col1">'+'<input type="text" id="num2" placeholder="Enter number2" onkeyup="convertNum(2)">'+'</td>';
+				str+='</tr>';
+				str+='<tr>';
+				str+='<td class="col1">'+makeDD(1,allowDD,'Select unit1','')+'</td>';
+				str+='<td class="col1">'+makeDD(2,allowDD,'Select unit2','')+'</td>';
+				str+='</tr>';
+				let header='<tr><th class="th2">Convert</th>';
+				header+='<th class="th3">Lengths</th></tr>';
+				let html='<table class="table1">'+header+str+'</table>';
+				let element=document.getElementById('showTableAdd');
+				element.innerHTML=html;
+			}
+			function makeDD(id,arr,first,selVal) {
+				const arr1=arr.map(function(opt) {
+					if(opt==selVal)
+						return '<option selected>'+opt+'</option>';
+					else
+						return '<option>'+opt+'</option>';
+				});
+				let header='<option disabled>'+first+'</option>';
+				if(selVal=='')
+					header='<option disabled selected>'+first+'</option>';
+				let s1='<select id=\'dd'+id+'\' onchange="convertNum('+(id==1 ? 2 : 1)+')">'+header+arr1.join('')+'</select>';
+				return s1;
+			}
+			function convertNum(id) {
+				let txt1=document.getElementById("dd1").value;
+				let txt2=document.getElementById("dd2").value;
+				if(txt1=='Select unit1' || txt2=='Select unit2'){
+					return;
+				}
+				let num=document.getElementById("num"+id).value;
+				let srcUnit='';
+				let desUnit='';
+				if(id==1){
+					srcUnit=txt1;
+					desUnit=txt2;
+				}
+				else{
+					srcUnit=txt2;
+					desUnit=txt1;
+				}
+				let result=convertUnit(num,srcUnit,desUnit);
+				if(id==1){
+					document.getElementById("num2").value=result;
+				}
+				else{
+					document.getElementById("num1").value=result;
+				}
+			}
+
+			function convertUnit(num,srcUnit,desUnit) {
+				if(srcUnit==desUnit){
+					return num;
+				}
+				return num*conUnit[srcUnit][desUnit];
+			}
+		</script>
+	</body>
+</html> 

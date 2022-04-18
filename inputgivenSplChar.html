@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="This is a Website">
+		<title>Rishabh's Website</title>
+		<link rel="stylesheet" type="text/css" href="abc.css">
+	</head>
+	<body>
+		<input type="text" id="num" placeholder="only digits +-*/." onkeyup="only()"> 
+		<script>
+			function only() {
+				let str=document.getElementById("num").value;
+				console.log(str);
+				let lastChar=str.substring(str.length-1);
+				if(isNaN(lastChar)&& lastChar!='+' && lastChar!='-'&&lastChar!='*'&&lastChar!='/'&&lastChar!='.'){
+					let newStr=str.substring(0,str.length-1);
+					document.getElementById("num").value=newStr;
+				}
+			}
+		</script>
+	</body>
+</html> 

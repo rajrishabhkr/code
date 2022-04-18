@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="This is a Website">
+		<title>Rishabh's Website</title>
+		<link rel="stylesheet" type="text/css" href="abc.css">
+	</head>
+	<body>
+		<h2 id='titleLine'>Students</h2>
+		<div id='students'></div>
+		<button onclick='showStudents()'>Show Students</button>
+		<button onclick="getNewStudent()">New Students</button>
+		<button onclick='highMarks()'>Highlight marks</button>
+		<button onclick='highStudents()'>Highlight students</button>
+		<script>
+			let highlightMarks=false;
+			let highlightStudents=false;
+			let students=[
+			{name:'Bob',maths:82,computers:88,code:'C++'},
+			{name:'Jack',maths:44,computers:55,code:'JavaScript'},
+			{name:'Mary',maths:91,computers:73,code:'Python'},
+			{name:'Dave',maths:60,computers:89,code:'Python'},
+			{name:'Julia',maths:58,computers:60,code:'JavaScript'},
+			{name:'Steve',maths:42,computers:47,code:'JavaScript'}
+			];
+			const codeOptions=['C++','Java','JavaScript','Python'];
+			function showStudentsTable(){
+				let title=document.getElementById('titleLine');
+				title.innerHTML='Student Data';
+				let stMap=students.map(function(ele){
+					let str='<tr class=\''+getClassStudent(ele)+'\'>';
+					str+='<td class=\'td1\'>' + ele.name+'</td>';
+					str+='<td class=\''+getClassMarks(ele.maths)+'\'>' + ele.maths+'</td>';
+					str+='<td class=\''+getClassMarks(ele.computers)+'\'>' + ele.computers+'</td>';
+					str+='<td class=\''+getClassMarks(ele.code)+'\'>' + ele.code+'</td>';
+					str+='<td><button class=\'editBtn\' onclick=\'edit("'+ele.name+'")\'>Edit</button></td>';
+					str+='<td><button class=\'remBtn\' onclick=\'remove("'+ele.name+'")\'>Remove</button></td>';
+					str+='</tr>';
+					return str;
+				});
+				let header='<tr>';
+				header +='<th class=\'th1\' onclick=\'sort(0)\'>Name</th>';
+				header +='<th class=\'th1\' onclick=\'sort(1)\'>Maths</th>';
+				header +='<th class=\'th1\' onclick=\'sort(2)\'>Computers</th>';
+				header +='<th class=\'th1\' onclick=\'sort(3)\'>CodeIn</th>';
+				header +='<th class=\'th1\'></th>';
+				header +='<th class=\'th1\'></th>';
+				header +='</tr>';
+				let html='<table class=\'table1\'>'+header+stMap.join('')+'</table>';
+				console.log(html);
+				let element=document.getElementById('students');
+				element.innerHTML=html;
+			}
+			function getNewStudent(){
+				let str='Name:<input type="text" id="name"><br/>';
+				str+='Maths:<input type="text" id="maths"><br/>';
+				str+='Computers:<input type="text" id="computers"><br/>';
+				str+=makeCodeDD('code',codeOptions,'Select Code','')+'<br/>';
+				str+='<button onclick=\'addStudent()\'>Add Student</button>';
+				let div=document.getElementById('students');
+				div.innerHTML=str;
+			}
+			function makeCodeDD(id,arr,first,selVal) {
+				const arr1=arr.map(function(opt) {
+					if(opt==selVal)
+						return '<option selected>'+opt+'</option>';
+					else
+						return '<option>'+opt+'</option>';
+				});
+				let header='<option disabled>'+first+'</option>';
+				if(selVal=='')
+					header='<option disabled selected>'+first+'</option>';
+				let s1='<select id=\''+id+'\'>'+header+arr1.join('')+'</select>';
+				return s1;
+			}
+			function addStudent() {
+				let st={};
+				st.name=document.getElementById('name').value;
+				st.maths=document.getElementById('maths').value;
+				st.computers=document.getElementById('computers').value;
+				st.code=document.getElementById('code').value;
+				students.push(st);
+				showStudents();
+			}
+			function edit(name) {
+				let st=students.find(function(st1){
+					return st1.name==name;
+				});
+				let str='Name:<input type="text" id="name" value=\''+st.name+'\'><br/>';
+				str+='Maths:<input type="text" id="maths" value=\''+st.maths+'\'><br/>';
+				str+='Computers:<input type="text" id="computers" value=\''+st.computers+'\'><br/>';
+				str+=makeCodeDD('code',codeOptions,'Select Code',st.code)+'<br/>';
+				str+='<button onclick=\'edit2()\'>Save Edited Details</button>';
+				let div=document.getElementById('students');
+				div.innerHTML=str;
+			}
+			function edit2() {
+				let name=document.getElementById('name').value;
+				let st=students.find(function(st1) {
+					return st1.name==name;
+				});
+				st.maths=document.getElementById('maths').value;
+				st.computers=document.getElementById('computers').value;
+				st.code=document.getElementById('code').value;
+				showStudents();
+			}
+			function getClassMarks(marks){
+				if(marks>=75 && highlightMarks)
+					return 'td1 score75';
+				else if(marks<=50 && highlightMarks)
+					return 'td1 score50';
+				else
+					return 'td1';
+			}
+			function getClassStudent(st){
+				let tot=st.maths+st.computers;
+				if(tot>=150 && highlightStudents)
+					return 'total150';
+				else if(tot<=100 && highlightStudents)
+					return 'total100';
+				else
+					return '';
+			}
+			function remove(name){
+				let index=students.findIndex(function(st){
+					return st.name==name;
+				});
+				students.splice(index,1);
+				showStudentsTable();
+			}
+			function highMarks(){
+				highlightMarks=true;
+				highlightStudents=false;
+				showStudentsTable();
+			}
+			function highStudents(){
+				highlightStudents=true;
+				highlightMarks=false;
+				showStudentsTable();
+			}
+			function showStudents(){
+				highlightStudents=false;
+				highlightMarks=false;
+				showStudentsTable();
+			}
+			function sort(colno){
+				if(colno==0)
+					students.sort(sortName);
+				else if(colno==1)
+					students.sort(sortMaths);
+				else if(colno==3)
+					students.sort(sortCodeIn);
+				else
+					students.sort(sortComputers);
+				showStudentsTable();
+			}
+			function sortName(st1,st2) {
+				return st1.name.localeCompare(st2.name);
+			}
+			function sortMaths(st1,st2) {
+				return st1.maths-st2.maths;
+			}
+			function sortComputers(st1,st2) {
+				return st1.computers-st2.computers;
+			}
+			function sortCodeIn(st1,st2) {
+				return st1.code.localeCompare(st2.code);
+			}
+		</script>
+	</body>
+</html> 

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="This is a Website">
+		<title>Rishabh's Website</title>
+		<link rel="stylesheet" type="text/css" href="abc.css">
+	</head>
+	<body>
+		<div id="addArea"></div>
+		<div id='members'></div>
+		<div id='add2Area'></div>
+		<script>
+			let members=[
+			{name:'Jack',old:65,new1:68},
+			{name:'Mary',old:55,new1:53},
+			{name:'Bob',old:71,new1:66},
+			{name:'Steve',old:62,new1:68},
+			{name:'James',old:81,new1:77},
+			{name:'Julia',old:52,new1:52},
+			{name:'Micheal',old:68,new1:68},
+			{name:'Bill',old:60,new1:61},
+			{name:'Sonny',old:61,new1:60}
+			];
+			let min=members.reduce(function(acc,curr) {
+				if(curr.new1>acc)
+					return acc.new1;
+				else
+					return curr.new1;
+			},0);
+			let max=members.reduce(function(acc,curr) {
+				if(curr.new1>acc)
+					return curr.new1;
+				else
+					return acc;
+			},0);
+			const minOption=[];
+			for (let i=min;i<=max;i++) {
+				minOption.push(i)
+			}
+			const maxOption=[];
+			for (let i=min;i<=max;i++) {
+				maxOption.push(i)
+			}
+			const oldOption=[];
+			for (let i=40;i<=100;i++) {
+				oldOption.push(i)
+			}
+			const newOption=[];
+			for (let i=40;i<=100;i++) {
+				newOption.push(i)
+			}
+			showAddMember();
+			showMembers();
+			function createTable(arr){
+				let stMap=arr.map(function(ele){
+					let str='<tr class=\''+getMembersWeight(ele)+'\'>';
+					str+='<td class=\'col1\'>' + ele.name+'</td>';
+					str+='<td class=\'col1\'>' + ele.old+'</td>';
+					str+='<td class=\'col1\'>' + ele.new1+'</td>';
+					str+='</tr>';
+					return str;
+				});
+				let header='<tr>';
+				header +='<th class=\'th1\' onclick=\'sort(0)\'>Name</th>';
+				header +='<th class=\'th1\' onclick=\'sort(1)\'>Old Weight</th>';
+				header +='<th class=\'th1\' onclick=\'sort(2)\'>New Weight</th>';
+				header +='</tr>';
+				let html='<table class=\'table1\'>'+header+stMap.join('')+'</table>';
+				return html;
+			}
+			function showMembers(){
+				let html=createTable(members);
+				let element=document.getElementById('members');
+				element.innerHTML=html;
+			}
+			function getMembersWeight(st){
+				if(st.new1>st.old)
+					return 'showRed';
+				else if(st.new1<st.old)
+					return 'showGreen';
+				else
+					return 'showGrey';
+			}
+			function sort(colno){
+				if(colno==0)
+					members.sort(sortName);
+				else if(colno==1)
+					members.sort(sortOld);
+				else
+					members.sort(sortNew);
+				showAddMember();
+				showMembers(members);
+			}
+			function sortName(st1,st2) {
+				return -1*st1.name.localeCompare(st2.name);
+			}
+			function sortOld(st1,st2) {
+				return -st1.old+st2.old;
+			}
+			function sortNew(st1,st2) {
+				return -st1.new1+st2.new1;
+			}
+			function showAddMember() {
+				let pr='New Weight between:'+makeMinDD(minOption,'Select Min Wt');
+				pr+=makeMaxDD(maxOption,'Select Max Wt')+'<br/>';	
+				pr+='<button onClick=\'filterMember()\'>Filter</button>';
+				pr+='<button onClick=\'clearMember()\'>Clear</button>';
+				pr+='<button onClick=\'addMember()\'>Add New Member</button>';
+				let div=document.getElementById('addArea');
+				div.innerHTML=pr;
+			}
+			function makeMinDD(arr,firstItem,selValue){
+				let arr1=arr.map(function(opt) {
+					if(opt==selValue)
+						return '<option selected>'+opt+'</option>';
+					else
+						return'<option>'+opt+'</option>';
+				});
+				let first='<option disabled selected>'+firstItem+'</option>';
+				if(selValue!='')
+					first='<option disabled selected>'+firstItem+'</option>';
+				let s1='<select id=\'min\'>'+first+arr1.join('')+'</select>';
+				return s1;
+			}
+			function makeMaxDD(arr,firstItem,selValue){
+				let arr1=arr.map(function(opt) {
+					if(opt==selValue)
+						return '<option selected>'+opt+'</option>';
+					else
+						return'<option>'+opt+'</option>';
+				});
+				let first='<option disabled selected>'+firstItem+'</option>';
+				if(selValue!='')
+					first='<option disabled selected>'+firstItem+'</option>';
+				let s1='<select id=\'max\'>'+first+arr1.join('')+'</select>';
+				return s1;
+			}
+			function filterMember() {
+				let min=document.getElementById('min').value;
+				let max=document.getElementById('max').value;
+				let farr=members.filter(function(id) {
+					return ((id.new1>=min)&&(id.new1<=max));
+				});
+				let html=createTable(farr);
+				let element=document.getElementById('members');
+				element.innerHTML=html;
+				showAddMember();
+			}
+			function addMember() {
+				let str='Name:<input type="text" id="name"><br/>';
+				str+=makeOldDD(oldOption,'Select Old Weight')+'<br/>';
+				str+=makeNewDD(newOption,'Select New Weight')+'<br/>';
+				str+='<button onClick=\'add()\'>Add</button>';
+				let div=document.getElementById('add2Area');
+				div.innerHTML=str;
+			}
+			function makeOldDD(arr,firstItem,selValue){
+				let arr1=arr.map(function(opt) {
+					if(opt==selValue)
+						return '<option selected>'+opt+'</option>';
+					else
+						return'<option>'+opt+'</option>';
+				});
+				let first='<option disabled selected>'+firstItem+'</option>';
+				if(selValue!='')
+					first='<option disabled selected>'+firstItem+'</option>';
+				let s1='<select id=\'old\'>'+first+arr1.join('')+'</select>';
+				return s1;
+			}
+			function makeNewDD(arr,firstItem,selValue){
+				let arr1=arr.map(function(opt) {
+					if(opt==selValue)
+						return '<option selected>'+opt+'</option>';
+					else
+						return'<option>'+opt+'</option>';
+				});
+				let first='<option disabled selected>'+firstItem+'</option>';
+				if(selValue!='')
+					first='<option disabled selected>'+firstItem+'</option>';
+				let s1='<select id=\'new1\'>'+first+arr1.join('')+'</select>';
+				return s1;
+			}
+			function add() {
+				let st={};
+				st.name=document.getElementById('name').value;
+				st.old=document.getElementById('old').value;
+				st.new1=document.getElementById('new1').value;
+				members.push(st);
+				showMembers();
+				showAddMember();
+			}
+			function clearMember(){
+				showAddMember();
+				showMembers();
+			}
+		</script>
+	</body>
+</html> 

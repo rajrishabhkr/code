@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="This is a Website">
+		<title>Rishabh's Website</title>
+		<link rel="stylesheet" type="text/css" href="abc.css">
+	</head>
+	<body>
+		<div id="addArea"></div>
+		<div id='persons'></div>
+		<div id='add2Area'></div>
+		<script>
+			let persons=[
+			{name:'Jack',age:28,city:'London',tech:'Android'},
+			{name:'Mary',age:32,city:'Paris',tech:'React'},
+			{name:'Bob',age:35,city:'New York',tech:'Angular'},
+			{name:'Steve',age:26,city:'Delhi',tech:'Spring'}
+			];
+			const cityOption=['London','Paris','Delhi','NewYork'];
+			const techOption=['Android','React','Angular','Spring','Javascript'];
+			showAddPerson();
+			showPersons();
+			function showAddPerson() {
+				let pr='Name:<input type="text" id="name"><br/>';
+				pr+='Age:<input type="text" id="age"><br/>';
+				pr+='City: '+makeCityDD(cityOption,'Select City')+'<br/>';
+				pr+='Tech: '+makeTechDD(techOption,'Select Tech')+'<br/>';
+				pr+='<button onClick=\'addPerson()\'>Add Person</button>';
+				pr+=' <button onClick=\'removePerson()\'>Remove Person</button><br/>';
+				pr+='<button onClick=\'manageCity()\'>Manage Cities</button>';
+				pr+='<button onClick=\'manageTech()\'>Manage Techs</button>';
+				let div=document.getElementById('addArea');
+				div.innerHTML=pr;
+			}
+			function manageCity(){
+				let pr='<h3>List of Cities</h3><br/>';
+				pr+='<input type="text" id="city"><br/>';
+				pr+='<button onClick=\'addCity()\'>Add</button>';
+				let div=document.getElementById('addArea');
+				div.innerHTML=pr;
+				showCity();
+			}
+			function showCity() {
+				let stMap=cityOption.map(function(ele){
+					let str='<tr>';
+					str+='<td class=\'col1\'>' + ele+'</td>';
+					str+='<td class=\'col1\'>' +'<button onClick=\'removeCity()\'>Remove</button><br/>'+'</td>';
+					str+='</tr>';
+					return str;
+				});
+				let html='<table class=\'table1\'>'+stMap.join('')+'</table>';
+				console.log(html);
+				let element=document.getElementById('persons');
+				element.innerHTML=html;
+				let ar='<button onClick=\'showMain1()\'>Show Main Form</button>';
+				let div2=document.getElementById('add2Area');
+				div2.innerHTML=ar;
+			}
+			function addCity() {
+				let st={};
+				st=document.getElementById('city').value;
+				cityOption.push(st);
+				showCity();
+			}
+			function removeCity(city){
+				let index=cityOption.findIndex(function(st){
+					return st==city;
+				});
+				cityOption.splice(index,1);
+				showCity();
+			}
+			function manageTech(){
+				let pr='<h3>List of Techs</h3><br/>';
+				pr+='<input type="text" id="tech"><br/>';
+				pr+='<button onClick=\'addTech()\'>Add</button>';
+				let div=document.getElementById('addArea');
+				div.innerHTML=pr;
+				showTech();
+			}
+			function showTech() {
+				let stMap=techOption.map(function(ele){
+					let str='<tr>';
+					str+='<td class=\'col1\'>' + ele+'</td>';
+					str+='<td class=\'col1\'>' +'<button onClick=\'removeTech()\'>Remove</button><br/>'+'</td>';
+					str+='</tr>';
+					return str;
+				});
+				let html='<table class=\'table1\'>'+stMap.join('')+'</table>';
+				console.log(html);
+				let element=document.getElementById('persons');
+				element.innerHTML=html;
+				let ar='<button onClick=\'showMain2()\'>Show Main Form</button>';
+				let div2=document.getElementById('add2Area');
+				div2.innerHTML=ar;
+			}
+			function addTech() {
+				let st={};
+				st=document.getElementById('tech').value;
+				techOption.push(st);
+				showTech();
+			}
+			function removeTech(tech){
+				let index=techOption.findIndex(function(st){
+					return st==tech;
+				});
+				techOption.splice(index,1);
+				showTech();
+			}
+			function showPersons(){
+				let stMap=persons.map(function(ele){
+					let str='<tr>';
+					str+='<td class=\'col1\'>' + ele.name+'</td>';
+					str+='<td class=\'col1\'>' + ele.age+'</td>';
+					str+='<td class=\'col1\'>' + ele.city+'</td>';
+					str+='<td class=\'col1\'>' + ele.tech+'</td>';
+					str+='</tr>';
+					return str;
+				});
+				let html='<table class=\'table1\'>'+stMap.join('')+'</table>';
+				console.log(html);
+				let element=document.getElementById('persons');
+				element.innerHTML=html;
+			}
+			function addPerson() {
+				let st={};
+				st.name=document.getElementById('name').value;
+				st.age=document.getElementById('age').value;
+				st.city=document.getElementById('city').value;
+				st.tech=document.getElementById('tech').value;
+				persons.push(st);
+				showPersons();
+			}
+			function makeCityDD(arr,firstItem,selValue){
+				let arr1=arr.map(function(opt) {
+					if(opt==selValue)
+						return '<option selected>'+opt+'</option>';
+					else
+						return'<option>'+opt+'</option>';
+				});
+				let first='<option disabled selected>'+firstItem+'</option>';
+				if(selValue!='')
+					first='<option disabled selected>'+firstItem+'</option>';
+				let s1='<select id=\'city\'>'+first+arr1.join('')+'</select>';
+				return s1;
+			}
+			function makeTechDD(arr,firstItem,selValue){
+				let arr1=arr.map(function(opt) {
+					if(opt==selValue)
+						return '<option selected>'+opt+'</option>';
+					else
+						return'<option>'+opt+'</option>';
+				});
+				let first='<option disabled selected>'+firstItem+'</option>';
+				if(selValue!='')
+					first='<option disabled selected>'+firstItem+'</option>';
+				let s1='<select id=\'tech\'>'+first+arr1.join('')+'</select>';
+				return s1;
+			}
+			function showMain1() {
+				let st=cityOption.find(function(st1) {
+					return st1==city;
+				});
+				st=document.getElementById('city').value;
+				showAddPerson();
+				showPersons();
+			}
+			function showMain2() {
+				let st2=techOption.find(function(st1) {
+					return st1==tech;
+				});
+				st2=document.getElementById('tech').value;
+				showAddPerson();
+				showPersons();
+			}
+			function removePerson(name){
+				let index=persons.findIndex(function(st){
+					return st.name==name;
+				});
+				persons.splice(index,1);
+				showPersons();
+			}
+		</script>
+	</body>
+</html> 

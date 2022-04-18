@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="This is a Website">
+		<title>Rishabh's Website</title>
+		<link rel="stylesheet" type="text/css" href="abc.css">
+	</head>
+	<body>
+		<h2>Welcome to the Quiz Show</h2>
+		<div id="showdata"></div>
+		<script>
+			let stuQuiz=[
+			{name:"Einstein", score:0},
+			{name:"Newton", score:0},
+			{name:"Edison", score:0}
+			];
+			show();
+			function show(){
+				let s1=showQuiz();
+				let element=document.getElementById('showdata');
+				element.innerHTML=s1;
+			}
+			function showQuiz(){
+				let qMap=stuQuiz.map(function(ele,index) {
+					str='<tr>';
+					str+='<td class=\''+getScore(ele.score)+'\'>'+ele.name+' '+ele.score;
+					str+=' <button onclick=num2("'+index+'")>+2</button><button onclick=num1("'+index+'")>-1</button></td>';
+					str+='</tr>';
+					return str;
+				})
+				html='<table>'+qMap.join('')+'</table>';
+				return html;
+			}
+			function num2(index){
+				stuQuiz[index].score=stuQuiz[index].score+2;
+				show();
+			}
+			function num1(index){
+				stuQuiz[index].score=stuQuiz[index].score-1;
+				show();
+			}
+			function getScore(sc) {
+				if(sc>0)
+					return 'showGreen';
+				else if(sc<0)
+					return 'showRed';
+				else
+					return 'showBlue';
+			}
+		</script>
+	</body>
+</html> 

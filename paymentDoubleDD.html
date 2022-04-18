@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="This is a Website">
+		<title>Rishabh's Website</title>
+		<link rel="stylesheet" type="text/css" href="abc.css">
+	</head>
+	<body>
+		Payment Option<br/>
+		<div id="payments"></div>
+		<script>
+			const paymentOptions=[
+			{"type":"Credit Card","providers":["ICICI Bank","HDFC Bank","Citibank","SBI","Amex"]},
+			{"type":"Net Banking","providers":["SBI","BOI","HDFC Bank","Axis Bank","Kotak Bank"]},
+			{"type":"Wallet","providers":["PayTm","Google Pay","PhonePe","Amazon Pay"]}
+			];
+			showPaymentOption();
+			function showPaymentOption() {
+				const arr1=paymentOptions.map(function(p1) {
+					return p1.type;
+				});
+				let dd1=makeDDFn("dd1",arr1,'','Select Payment Methods','payChange');
+				let div1=document.getElementById("payments");
+				div1.innerHTML=dd1;
+			}
+			function makeDDFn(id,data,selectedVal,valOnTop,onChangeFn) {
+				let dataMap=data.map(function(opt) {
+					if(opt==selectedVal)
+						return '<option selected>'+opt+'</option>';
+					else
+						return '<option>'+opt+'</option>';
+				});
+				let first='<option value=\'\'disabled>'+valOnTop+'</option>';
+				if(selectedVal=='')
+					first='<option value=\'\'selected disabled>'+valOnTop+'</option>';
+				let ddHtml='<select id=\''+id+'\'>';
+				if(onChangeFn!='')
+					ddHtml='<select id=\''+id+'\'onChange=\''+onChangeFn+'(this)\'>';
+				ddHtml+=first+dataMap.join('')+'</select>';
+				return ddHtml;
+			}
+			function payChange(ele) {
+				let selOpt=ele.value;
+				const arr1=paymentOptions.map(function(p1) {
+					return p1.type;
+				});
+				let dd1=makeDDFn("dd1",arr1,selOpt,'Select Payment Methods','payChange');
+				let json1=paymentOptions.find(function(p1) {
+					return p1.type==selOpt;
+				});
+				let dd2=makeDDFn("dd2",json1.providers,'','Select','');
+				let div1=document.getElementById("payments");
+				div1.innerHTML=dd1+dd2;
+			}
+		</script>
+	</body>
+</html> 

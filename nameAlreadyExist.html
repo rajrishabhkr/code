@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="This is a Website">
+		<title>Rishabh's Website</title>
+		<link rel="stylesheet" type="text/css" href="abc.css">
+	</head>
+	<body>
+		Name : <input class="tx" type="text" id="name" onchange="nameFn()">
+		<div id='name2'></div>
+		Age : <input class="tx" type="text" id="age" onchange="ageFn()">
+		<div id='age2'></div>
+		City : <input class="tx" type="text" id="city" onchange="cityFn()">
+		<div id='city2'></div>
+		Technology : <input class="tx2" type="text" id="tech" onchange="techFn()">
+		<div id='tech2'></div>
+		<button id="btn1" onclick="add()">Add Person</button>
+		<div id='showTableAdd'></div>
+		<script>
+			let json1=[
+			{"name":"Jack","age":28,"city":"London","tech":"Android"},
+			{"name":"Mary","age":32,"city":"Paris","tech":"React"},
+			{"name":"Bob","age":35,"city":"New York","tech":"Angular"},
+			{"name":"Steve","age":26,"city":"Delhi","tech":"Spring"}
+			];
+			let allowCities=["London","Paris","New York","Delhi"];
+			let allowTechs=["Android","React","Angular","Spring"];
+			function nameFn() {
+				let txt=document.getElementById("name").value;
+				let jsonTxt=json1.find(function(ele) {
+					return ele.name==txt;
+				});
+				if (jsonTxt !=undefined && jsonTxt.name==txt) {
+					let errDiv=document.getElementById("name2");
+					errDiv.innerHTML="Name already exits.Choose a different name.";
+					errDiv.className="c3";
+					let btn=document.getElementById("btn1");
+					btn.disabled=true;
+				}
+				else{
+					let errDiv=document.getElementById("name2");
+					errDiv.innerHTML="";
+					errDiv.className="";
+					let btn=document.getElementById("btn1");
+					btn.disabled=false;
+				}
+			}
+			function ageFn() {
+				let txt=document.getElementById("age").value;
+				if (txt<18) {
+					let errDiv=document.getElementById("age2");
+					errDiv.innerHTML="Minimum age should be 18 years";
+					errDiv.className="c3";
+					let btn=document.getElementById("btn1");
+					btn.disabled=true;
+				}
+				else{
+					let errDiv=document.getElementById("age2");
+					errDiv.innerHTML="";
+					errDiv.className="";
+					let btn=document.getElementById("btn1");
+					btn.disabled=false;
+				}
+			}
+			function cityFn() {
+				let txt=document.getElementById("city").value;
+				let cityTxt=allowCities.find(function(ele) {
+					return ele==txt;
+				})
+				if (cityTxt!=txt) {
+					let errDiv=document.getElementById("city2");
+					errDiv.innerHTML="Enter a city from London,Paris,Delhi,New York";
+					errDiv.className="c3";
+					let btn=document.getElementById("btn1");
+					btn.disabled=true;
+				}
+				else{
+					let errDiv=document.getElementById("city2");
+					errDiv.innerHTML="";
+					errDiv.className="";
+					let btn=document.getElementById("btn1");
+					btn.disabled=false;
+				}
+			}
+			function techFn() {
+				let txt=document.getElementById("tech").value;
+				let jsonTxt=allowTechs.find(function(ele) {
+					return ele==txt;
+				});
+				if (jsonTxt!=txt) {
+					let errDiv=document.getElementById("tech2");
+					errDiv.innerHTML="Enter a technology from Android,React,Angular,Spring";
+					errDiv.className="c3";
+					let btn=document.getElementById("btn1");
+					btn.disabled=true;
+				}
+				else{
+					let errDiv=document.getElementById("tech2");
+					errDiv.innerHTML="";
+					errDiv.className="";
+					let btn=document.getElementById("btn1");
+					btn.disabled=false;
+				}
+			}
+			showTable();
+			function showTable(){
+				let stMap=json1.map(function(ele){
+					let str='<tr>';
+					str+='<td class="col1">' + ele.name+'</td>';
+					str+='<td class="col1">' + ele.age+'</td>';
+					str+='<td class="col1">' + ele.city+'</td>';
+					str+='<td class="col1">' + ele.tech+'</td>';
+					str+='</tr>';
+					return str;
+				});
+				let header='<tr>';
+				header +='<th class="th1">Name</th>';
+				header +='<th class="th1">Age</th>';
+				header +='<th class="th1">City</th>';
+				header +='<th class="th1">Tech</th>';
+				header +='</tr>';
+				let html='<table class="table1">'+header+stMap.join('')+'</table>';
+				let element=document.getElementById('showTableAdd');
+				element.innerHTML=html;
+			}
+			function add() {
+				let st={};
+				st.name=document.getElementById('name').value;
+				st.age=document.getElementById('age').value;
+				st.city=document.getElementById('city').value;
+				st.tech=document.getElementById('tech').value;
+				json1.push(st);
+				showTable();
+			}
+		</script>
+	</body>
+</html> 

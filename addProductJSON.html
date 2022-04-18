@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="This is a Website">
+		<title>Rishabh's Website</title>
+		<link rel="stylesheet" type="text/css" href="abc.css">
+	</head>
+	<body>
+		<div id="addArea"></div>
+		<div id='products'></div>
+		<script>
+			let products=[
+			{name:'Maggi',qty:28},
+			{name:'Perk',qty:7},
+			{name:'Gems',qty:11},
+			{name:'Lindt',qty:4},
+			{name:'Nutties',qty:20}
+			];
+			showAddProduct();
+			showProduct();
+			function showAddProduct() {
+				let pr='Name:<input type="text" id="name"><br/>';
+				pr+='Quantity:<input type="text" id="qty"><br/>';
+				pr+='<button onClick=\'addProduct()\'>Add Product</button>';
+				let div=document.getElementById('addArea');
+				div.innerHTML=pr;
+			}
+			function showProduct(){
+				let stMap=products.map(function(ele){
+					let str='<tr>';
+					str+='<td class=\'col1\'>' + ele.name+'</td>';
+					str+='<td class=\'col1\'>' + ele.qty+'</td>';
+					str+='<td><button class=\'editBtn\' onclick=\'edit("'+ele.name+'")\'>Edit</button></td>';
+					str+='<td><button class=\'remBtn\' onclick=\'remove("'+ele.name+'")\'>Remove</button></td>';
+					str+='</tr>';
+					return str;
+				});
+				let html='<table class=\'table1\'>'+stMap.join('')+'</table>';
+				console.log(html);
+				let element=document.getElementById('products');
+				element.innerHTML=html;
+			}
+			function addProduct() {
+				let st={};
+				st.name=document.getElementById('name').value;
+				st.qty=document.getElementById('qty').value;
+				products.push(st);
+				showProduct();
+			}
+			function edit(name) {
+				let st=products.find(function(st1){
+					return st1.name==name;
+				});
+				let str='Name:<input type="text" id="name" value=\''+st.name+'\'><br/>';
+				str+='Quantity:<input type="text" id="qty" value=\''+st.qty+'\'><br/>';
+				str+='<button onclick=\'update()\'>Update</button>';
+				let div=document.getElementById('addArea');
+				div.innerHTML=str;
+			}
+			function update() {
+				let name=document.getElementById('name').value;
+				let st=products.find(function(st1) {
+					return st1.name==name;
+				});
+				st.qty=document.getElementById('qty').value;
+				showAddProduct();
+				showProduct();
+			}
+			
+			function remove(name){
+				let index=products.findIndex(function(st){
+					return st.name==name;
+				});
+				products.splice(index,1);
+				showProduct();
+			}
+		</script>
+	</body>
+</html> 

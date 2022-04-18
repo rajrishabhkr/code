@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="This is a Website">
+		<title>Rishabh's Website</title>
+		<link rel="stylesheet" type="text/css" href="abc.css">
+	</head>
+	<body>
+		<h2>List Of People</h2>
+		<div id='listJsons'></div>
+		<button onclick='showAll()'>Show</button>
+		<button onclick='hideAll()'>Hide</button>
+		<button onclick='sortAllByName()'>Sort by Name</button>
+		<button onclick='sortAllByCountry()'>Sort by Country</button>
+		<button onclick='sortAllByAge()'>Sort by Age</button>
+		<br/>
+		<button onclick='sortAllByCountryWithinName()'>Sort by Country and Name</button>
+		<button onclick='sortAllByCountryWithinAge()'>Sort by Country and Age</button>
+		<button onclick='showAllPeopleOfCountry("India")'>India</button>
+		<br/>
+		<button onclick='showAllPeopleOfCountry("USA")'>USA</button>
+		<button onclick='showAllPeopleOfCountry("France")'>France</button>
+		<button onclick='styleByCountry()'>Style by Country</button>
+		<button onclick='styleByAge()'>Style by Age</button>
+		<script>
+			let jsons=[
+			{"name":"Jack","country":"USA","age":35},
+			{"name":"Amit","country":"India","age":38},
+			{"name":"Edward","country":"USA","age":41},
+			{"name":"Vishal","country":"India","age":30},
+			{"name":"Annie","country":"USA","age":27},
+			{"name":"Nick","country":"France","age":32},
+			{"name":"Francis","country":"France","age":44},
+			{"name":"Preeti","country":"India","age":25},
+			{"name":"Sophie","country":"France","age":29},
+			{"name":"Harpreet","country":"India","age":48},
+			{"name":"Bob","country":"USA","age":21}
+			];
+			function showAll(){
+				const listMap=jsons.map(function(ele){
+					let str='<li>';
+					str+=ele.name+', ';
+					str+=ele.country+',  ';
+					str+=ele.age;
+					str+='</li>';
+					return str;
+				});
+				let str='<ul>'+listMap.join('')+'</ul>';
+				let element=document.getElementById('listJsons');
+				element.innerHTML=str;
+			}
+			function hideAll(){
+				let element=document.getElementById('listJsons');
+				element.innerHTML='';
+			}
+			function sortAllByName(){
+				jsons.sort(sortAllByNameAsc);
+				showAll();
+			}
+			function sortAllByNameAsc(n1,n2) {
+				return n1.name.localeCompare(n2.name);
+			}
+			function sortAllByCountry(){
+				jsons.sort(sortAllByCountryAsc);
+				showAll();
+			}
+			function sortAllByCountryAsc(c1,c2) {
+				return c1.country.localeCompare(c2.country);
+			}
+			function sortAllByAge(){
+				jsons.sort(sortAllByAgeAsc);
+				showAll();
+			}
+			function sortAllByAgeAsc(a1,a2) {
+				return a1.age-a2.age;
+			}
+			function sortAllByCountryWithinName(){
+				jsons.sort(sortAllByCountryWithinNameAsc);
+				showAll();
+			}
+			function sortAllByCountryWithinNameAsc(cn1,cn2){
+				if(cn1.country==cn2.country)
+					return cn1.name.localeCompare(cn2.name);
+				else
+					return cn1.country.localeCompare(cn2.country);
+			}
+			function sortAllByCountryWithinAge(){
+				jsons.sort(sortAllByCountryWithinAgeAsc);
+				showAll();
+			}
+			function sortAllByCountryWithinAgeAsc(ca1,ca2){
+				if(ca1.country==ca2.country)
+					return ca1.age-ca2.age;
+				else
+					return ca1.country.localeCompare(ca2.country);
+			}
+			function showAllPeopleOfCountry(country){
+				let peopleIndia=jsons.filter(function(person){
+					return person.country==country;
+				});
+				const listMap=peopleIndia.map(function(ele){
+					let str='<li>';
+					str+=ele.name+', ';
+					str+=ele.country+',  ';
+					str+=ele.age;
+					str+='</li>';
+					return str;
+				});
+				let str='<ul>'+listMap.join('')+'</ul>';
+				let element=document.getElementById('listJsons');
+				element.innerHTML=str;	
+			}
+			function styleByCountry(){
+				const listMap=jsons.map(function(ele){
+					let str='<li>';
+					str+=ele.name+', ';
+					str+='<span class=\''+getCountry(ele.country)+'\'>'+ele.country+'</span>'+',  ';
+					str+=ele.age;
+					str+='</li>';
+					return str;
+				});
+				let str='<ul>'+listMap.join('')+'</ul>';
+				let element=document.getElementById('listJsons');
+				element.innerHTML=str
+			}
+			function getCountry(country){
+				if(country=="India")
+					return 'sBlue';
+				else if(country=="USA")
+					return 'sGreen';
+				else
+					return 'sRed';
+			}
+			function styleByAge(){
+				const listMap=jsons.map(function(ele){
+					let str='<li>';
+					str+=ele.name+', ';
+					str+=ele.country+',  ';
+					str+='<span class=\''+getAge(ele.age)+'\'>'+ele.age+'</span>'+',  ';
+					str+='</li>';
+					return str;
+				});
+				let str='<ul>'+listMap.join('')+'</ul>';
+				let element=document.getElementById('listJsons');
+				element.innerHTML=str
+			}
+			function getAge(age){
+				if(age<=30)
+					return 'sGreen';
+				else if(age>30 && age<=40)
+					return 'sBlue';
+				else
+					return 'sRed';
+			}
+			
+		</script>
+	</body>
+</html> 

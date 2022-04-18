@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="This is a Website">
+		<title>Rishabh's Website</title>
+		<link rel="stylesheet" type="text/css" href="abc.css">
+	</head>
+	<body>
+		<input type="text" id="num" placeholder="Only 0 or 1" onkeyup="only()"> 
+		<script>
+			function only() {
+				let str=document.getElementById("num").value;
+				console.log(str);
+				let lastChar=str.substring(str.length-1);
+				if(lastChar!=1 && lastChar!=0) {
+					let newStr=str.substring(0,str.length-1);
+					document.getElementById("num").value=newStr;
+				}
+			}
+		</script>
+	</body>
+</html> 

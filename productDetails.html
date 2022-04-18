@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="This is a Website">
+		<title>Rishabh's Website</title>
+		<link rel="stylesheet" type="text/css" href="abc.css">
+	</head>
+	<body>
+		<div id='products'></div>
+		<script>
+			let products=[
+			{name:"Maggi",price:25, offers:["Citi Credit Cards","ICICI Card"]},
+			{name:"Perk",price:10, offers:["Axis Credit Cards","PayTM"]},
+			{name:"Gems",price:15, offers:["SBI Card","PhonePe","PayTM"]},
+			{name:"Lindt",price:90, offers:[]},
+			{name:"Nutties",price:12, offers:["Citi Credit Cards "]},
+			{name:"Pepsi",price:15, offers:["PhonePe","PayTM"]},
+			{name:"Coca Cola",price:15, offers:["SBI Card"]},
+			{name:"Dairy Milk",price:10, offers:[]}
+			];
+			productDetails();
+			function productDetails(){
+				let stMap=products.map(function(ele,index){
+					let id='showOffer'+index;
+					let str='<tr id="'+id+'">';
+					str+='<td class=\'showBlue\'>';
+					str+='Name:'+ele.name;
+					str+=' Price:'+ele.price+'<br/>';
+					str+='<button onclick=showOffer("'+index+'")>Show offers</button></td>';
+					str+='</tr>';
+					return str;
+				});
+				let html='<table class=\'table1\'>'+stMap.join('')+'</table>';
+				let element=document.getElementById('products');
+				element.innerHTML=html;
+			}
+			function showOffer(index) {
+				let str='<td class="showRed">Name:'+products[index].name;
+				str+=' Price:'+products[index].price+'<br/>';
+				if(products[index].offers.length==0){
+					str+="No offers";
+				}
+				else{
+					str+= products[index].offers.length+" offers from <br/>";
+				}
+				str+=products[index].offers.join('<br/>');
+				str+='<br/><button onclick=\'hideOffer("'+index+'")\'>Hide offers</button></td>';
+				let div=document.getElementById('showOffer'+index);
+				div.innerHTML=str;
+			}
+			function hideOffer(index) {
+				let ele=products[index];
+				let id='showOffer'+index;
+				let str='<td class=\'showBlue\'>';
+				str+='Name:'+ele.name;
+				str+=' Price:'+ele.price+'<br/>';
+				str+='<button onclick=showOffer("'+index+'")>Show offers</button></td>';
+				let div=document.getElementById('showOffer'+index);
+				div.innerHTML=str;
+			}
+		</script>
+	</body>
+</html> 

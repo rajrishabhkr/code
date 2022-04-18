@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="This is a Website">
+		<title>Rishabh's Website</title>
+		<link rel="stylesheet" type="text/css" href="abc.css">
+	</head>
+	<body>
+		<h3>Sales Data</h3>
+		<h3 id="name">Seller:Jack Smith</h3>
+		<h3 id="email">Jack@email.com</h3>
+		<h3 id="product">Product:PR244</h3>
+		<h3 id="sale">Total Sale:24</h3>
+		<button onclick='logStyles()'>Log Styles</button>
+		<button onclick="changeStyle()">Change Style</button>
+		<button onclick="allGreen()">All Green</button>
+		<button onclick="clearStyles()">Clear Styles</button>
+		<script>
+			const ids=['name','email','product','sale'];
+			function logStyles(){
+				for(let i=0; i<ids.length; i++){
+					let element=document.getElementById(ids[i]);
+					element.className='showBlue';
+				}
+			}
+			function changeStyle(){
+				let element=document.getElementById('name');
+				element.className='showGreen';
+			}
+			function allGreen(){
+				for(let i=0; i<ids.length; i++){
+					let element=document.getElementById(ids[i]);
+					element.className='showGreen';
+				}
+			}
+			function clearStyles(){
+				for(let i=0; i<ids.length; i++){
+					let element=document.getElementById(ids[i]);
+					element.className='';
+				}
+			}
+		</script>
+	</body>
+</html> 
